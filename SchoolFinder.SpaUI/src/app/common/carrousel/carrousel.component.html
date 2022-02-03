@@ -1,0 +1,25 @@
+<div class="carrousel__card">
+    <ng-container *ngFor="let item of carrouselData; let i = index">
+        <ng-container *ngIf="currentItemIndex == i">
+            <div class="carrousel__background" @fade></div>
+            <mat-icon @enterLeave>{{item.imageSrc}}</mat-icon>
+            <carrousel-triangle
+                @fade
+                id="triangle__left"
+                class="triangle"
+                [ngClass]="{'disabled': currentItemIndex == 0}"
+                (customClick)="changeCurrentItemIndex(-1)">
+            </carrousel-triangle>
+            <carrousel-triangle
+                @fade
+                id="triangle__right"
+                class="triangle"
+                [ngClass]="{'disabled': currentItemIndex == carrouselData.length - 1}"
+                (customClick)="changeCurrentItemIndex(1)">
+            </carrousel-triangle>
+            <h3 class="title">
+                {{item.title}}
+            </h3>
+        </ng-container>
+    </ng-container>
+</div>

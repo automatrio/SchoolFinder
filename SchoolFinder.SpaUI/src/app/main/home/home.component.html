@@ -1,0 +1,29 @@
+<main class="home__container">
+  <div class="home__background-panel">
+    <mat-form-field class="address-form" appearance="outline">
+      <mat-label>Procurar escolas próximas a:</mat-label>
+      <input
+        matInput 
+        type="text" 
+        [(ngModel)]="address" 
+        aria-label="campo para pesquisar seu endereço"
+        [placeholder]="'Digite seu endereço: ex. R. do Automatrio, 1357'">
+    </mat-form-field>
+    <button
+      mat-icon-button 
+      aria-label="search" 
+      type="submit"
+      matTooltip="Pesquisar">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button 
+      color="warn" 
+      mat-fab 
+      aria-label="filter" 
+      type="button" 
+      matTooltip="Filtros"
+      (click)="expandFilterMenu()">
+      <mat-icon>filter_alt</mat-icon>
+    </button>
+  </div>
+</main>

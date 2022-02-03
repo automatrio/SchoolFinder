@@ -1,0 +1,15 @@
+<div class="filters-panel__container">
+    
+    <header class="filters-panel__header">
+        <div class="filters-panel__close-button">
+            <button mat-icon-button (click)="dismissFiltersPanel()">
+                <mat-icon >close</mat-icon>
+            </button>
+        </div>
+        <h3 class="filters-panel__title">
+            {{"Filtros"}}
+        </h3>
+    </header>
+    <app-carrousel [carrouselData]="schoolTypes"></app-carrousel>
+    <app-carrousel [carrouselData]="schoolPaymentOptions"></app-carrousel>
+</div>

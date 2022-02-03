@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+*:not(mat-icon) {
+    font-family: 'Rajdhani', sans-serif !important; 
+    color: white;
+}
+
+html {
+    background-image: url('./assets/BackgroundColor.jpg');
+    margin: 0px;
+    body {
+        margin: 0px;
+        .main__background {
+            background-image: url('./assets/BackgroundDisplacement.jpg');
+            mix-blend-mode: darken;
+            backdrop-filter: grayscale(60%);
+            width: 100vw;
+            height: 100vh; 
+            position: absolute;
+        }
+        .main__gradient {
+            background: linear-gradient(0deg, rgba(0,40,20,1) 0%, rgba(0, 255, 100, .85) 100%);
+            mix-blend-mode: darken;
+            backdrop-filter: blur(2px);
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+        }
+
+        .mat-drawer {
+            overflow-y: clip;
+            background: none;
+            &:not(.mat-drawer-side) {
+                box-shadow: none;
+            }
+        }
+
+        .mat-drawer-content {
+            overflow: hidden;
+        }
+
+        .mat-drawer-container {
+            background: none;
+        }
+
+        .mat-input-element::placeholder{
+            color: rgb(107, 255, 169);
+        }
+    }
+}
+
+.mat-drawer-backdrop {
+    background-color: rgba(0,0,0,.5);
+}
