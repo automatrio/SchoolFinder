@@ -34,7 +34,7 @@ namespace SchoolFinder.API
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMem"));
             services.AddScoped<ISchoolRepository, SchoolRepository>();
-
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SchoolFinder.API", Version = "v1" });
@@ -54,6 +54,8 @@ namespace SchoolFinder.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
             app.UseAuthorization();
 

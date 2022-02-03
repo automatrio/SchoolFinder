@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BingMapsRESTToolkit;
 using Microsoft.AspNetCore.Mvc;
+using SchoolFinder.Common;
 
 namespace SchoolFinder.API.Controllers
 {
@@ -25,12 +26,19 @@ namespace SchoolFinder.API.Controllers
                 return BadRequest(result.ErrorDetails);
             }
 
-            var possibleLocations = result.ResourceSets[0].Resources
+            var possibleLocations = result.ResourceSets
+                .SelectMany(resourceSet => resourceSet.Resources)
                 .Cast<Location>()
                 .Where(_ => _.Address.Locality == "Porto Alegre")
                 .OrderByDescending(_ => _.ConfidenceLevelType);
 
-            return Ok(possibleLocations);
+            var httpResponse = new HttpResponse<Location>()
+            {
+                Data = possibleLocations,
+                Count = possibleLocations.Count(),
+            };
+
+            return Ok(httpResponse);
         }
     }
 }
