@@ -1,0 +1,78 @@
+.home__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+    .home__background-panel {
+        @media (max-width: 600px) {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            width: 100%;
+        }
+        @media (min-width: 601px) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            border-radius: 20px;
+        }
+        background-color: rgba(0, 18, 38, 0.8);
+        padding: 40px 0px 10px 0px;
+        box-shadow: 0px 3px 8px 4px #0000007e;
+
+        .address-form {
+            @media (max-width: 600px) {
+                grid-column: 1 / 3;
+                grid-row: 1 / 2;
+                width: 95%;
+            }
+            @media (min-width: 601px) {
+                width: 75%;
+            } 
+        }
+    
+        mat-form-field.mat-form-field {
+            font-size: 20px;
+            text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+        }
+    
+        button {
+            @media (max-width: 600px) {
+                margin: 0px;
+            }
+            @media (min-width: 601px) {
+                margin: 0px 0px 35px 30px;
+            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            transition: 200ms;
+            &:hover {
+                transform: scale(1.2);
+                &.mat-icon-button mat-icon {
+                    text-shadow: 0px 0px 5px rgb(0, 255, 72);
+                }      
+                &.mat-fab mat-icon {
+                    text-shadow: 0px 0px 5px rgb(255, 244, 229);
+                }     
+            }
+            mat-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            &.mat-icon-button mat-icon {
+                font-size: 50px;
+            }
+            &.mat-fab mat-icon {
+                font-size: 40px;
+            }
+        }
+    }
+}
