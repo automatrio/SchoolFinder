@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EventBusService } from 'src/app/global/event-bus.service';
 
 @Component({
   selector: 'app-logo',
@@ -8,13 +9,15 @@ import { Router } from '@angular/router';
 })
 export class LogoComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private eventBusService: EventBusService) { }
 
   ngOnInit(): void {
   }
 
   public redirectToHomepage() {
-    this.router.navigateByUrl("/welcome");
+    this.eventBusService.expandFiltersPanel.next(false);
+    this.eventBusService.expandSchoolExplorer.next(false);
+    this.router.navigateByUrl("/");
   }
 
 }

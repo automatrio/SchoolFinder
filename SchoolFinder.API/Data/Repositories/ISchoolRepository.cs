@@ -8,5 +8,6 @@ namespace SchoolFinder.Data.Repositories
 {
     public interface ISchoolRepository : IRepository<School>
     {
+        Task<IEnumerable<dynamic>> GetAll(SchoolFilter filter);
     }
 }

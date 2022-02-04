@@ -4,6 +4,7 @@ import { CarrouselComponent } from './carrousel/carrousel.component';
 import { CarrouselTriangleComponent } from './carrousel/carrousel-triangle/carrousel-triangle.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { BingMapComponent } from './bing-map/bing-map.component';
 
 
 
@@ -11,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     CarrouselComponent,
     CarrouselTriangleComponent,
+    BingMapComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   exports: [
-    CarrouselComponent
+    CarrouselComponent,
+    BingMapComponent
   ]
 })
 export class CommonSharedModule { }

@@ -1,8 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using SchoolFinder.Application;
 using SchoolFinder.Common;
-using SchoolFinder.Data.Repositories;
+using SchoolFinder.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,46 +11,41 @@ namespace SchoolFinder.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class ControllerBase<TEntity, TDto> : ControllerBase where TEntity : class
+    public abstract class ControllerBase<TEntity, TDto> : ControllerBase 
+        where TEntity : class 
+        where TDto : class
     {
-        protected readonly IRepository<TEntity> _repository;
-        protected readonly IMapper _mapper;
+        protected readonly IApplicationService<TEntity, TDto> appService;
 
-        public ControllerBase(IRepository<TEntity> repository, IMapper mapper)
+        public ControllerBase(IApplicationService<TEntity, TDto> appService)
         {
-            this._repository = repository;
-            this._mapper = mapper;
+            this.appService = appService;
         }
 
         [HttpGet]
-        public virtual async Task<IActionResult> GetAll()
+        public virtual async Task<IActionResult> GetAll([FromQuery] FilterBase filter)
         {
-            return await this.ControllerFlow(async (rep, mapper) => 
+            return await this.ControllerFlow(async () => 
             {
-                var entities = await rep.GetAll().ToListAsync();
-                return entities.Select(e => mapper.Map<TDto>(e));
+                return await appService.GetAll(filter);
             });
         }
 
         [HttpGet("{id}")]
         public virtual async Task<IActionResult> GetById([FromQuery] object id)
         {
-            return await this.ControllerFlow(async (rep, mapper) => 
+            return await this.ControllerFlow(async () => 
             {
-                var entity = await rep.GetByIdAsync(id);
-                return new List<TDto>()
-                {
-                    mapper.Map<TDto>(entity),
-                };
+                return await appService.GetOneById(id);
             });
         }
 
-        private async Task<IActionResult> ControllerFlow(Func<IRepository<TEntity>, IMapper, Task<IEnumerable<TDto>>> repositoryCall)
+        private async Task<IActionResult> ControllerFlow(Func<Task<IEnumerable<TDto>>> appServiceCall)
         {
             var response = new HttpResponse<TDto>();
             try
             {
-                var result = await repositoryCall(this._repository, this._mapper);
+                var result = await appServiceCall();
                 response.Count = result.Count();
                 response.Data = result.ToList();
                 return Ok(response);

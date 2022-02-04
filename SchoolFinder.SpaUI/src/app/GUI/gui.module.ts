@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SchoolExplorerComponent } from './school-explorer/school-explorer.component';
 import { CommonSharedModule } from '../common/common-shared.module';
 import { AngularMaterialModule } from '../common/angular-material.module';
+import { AngularCommomModule } from '../common/angular-commom.module';
 
 
 
@@ -19,7 +20,8 @@ import { AngularMaterialModule } from '../common/angular-material.module';
   imports: [
     CommonModule,
     CommonSharedModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    AngularCommomModule
   ],
   exports: [
     FiltersPanelComponent,

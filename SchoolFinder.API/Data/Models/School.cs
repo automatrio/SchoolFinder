@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolFinder.Data.Models
 {
@@ -15,8 +16,8 @@ namespace SchoolFinder.Data.Models
         public int AddressNumber { get; set; }
         public string Neighborhood { get; set; }        
         public string ZipCode { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public string TelephoneNumber { get; set; }            
         public string Email { get; set; }        
         public string Website { get; set; }                                       
@@ -24,5 +25,8 @@ namespace SchoolFinder.Data.Models
         public string Twitter { get; set; }
         public string Facebook { get; set; }
         public string Situation { get; set; }
+
+        [NotMapped]
+        public double Distance  { get; set;}
     }
 }

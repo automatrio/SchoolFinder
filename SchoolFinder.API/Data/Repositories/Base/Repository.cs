@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace SchoolFinder.Data.Repositories
 {
-    public abstract class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> 
+        where TEntity : class
     {
         protected readonly DataContext context;
 
@@ -14,16 +14,38 @@ namespace SchoolFinder.Data.Repositories
             this.context = context;
         }
 
-        public virtual IQueryable<T> GetAll()
+        public virtual IQueryable<TEntity> GetAll(FilterBase filter)
         {
-            return this.context.Set<T>().AsNoTracking();
+            var query = this.context
+                .Set<TEntity>()
+                .AsNoTracking();
+                
+            query = this.CustomBehavior(query, filter);
+            return this.PaginateResult(query, filter);
         }
 
-        public virtual async Task<T> GetByIdAsync(object id)
+        public virtual async Task<TEntity> GetByIdAsync(object id)
         {
-            return await this.context.Set<T>().FindAsync(id);
+            return await this.context.Set<TEntity>().FindAsync(id);
         }
 
-        public abstract IQueryable<T> GetCustomData();
+        public virtual IQueryable<TEntity> CustomBehavior(IQueryable<TEntity> query, FilterBase filter)
+        {
+            return query;
+        }
+
+        public virtual IQueryable<TEntity> PaginateResult(IQueryable<TEntity> query, FilterBase filter)
+        {
+            if (filter.PaginationSize > 0 && filter.PageNumber > 0)
+            {
+                return query
+                    .Take(filter.PaginationSize)
+                    .Skip(filter.PaginationSize * filter.PageNumber);
+            }
+            else
+            {
+                return query;
+            }
+        }
     }
 }

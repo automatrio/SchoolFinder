@@ -1,4 +1,4 @@
-namespace SchoolFinder.Data.Models
+namespace SchoolFinder.Application.Dtos
 {
     public class SchoolDto
     {

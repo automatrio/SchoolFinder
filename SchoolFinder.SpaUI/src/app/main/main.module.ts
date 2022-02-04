@@ -7,11 +7,11 @@ import { AngularMaterialModule } from '../common/angular-material.module';
 import { MainRoutingModule } from './main.routing.module';
 import { AngularCommomModule } from '../common/angular-commom.module';
 import { LocationNotFoundDialogComponent } from './home/location-not-found-dialog/location-not-found-dialog.component';
+import { SchoolService } from './services/school.service';
 
 
 @NgModule({
   declarations: [
-    BingMapComponent,
     HomeComponent,
     SchoolsTableComponent,
     LocationNotFoundDialogComponent,
@@ -21,6 +21,9 @@ import { LocationNotFoundDialogComponent } from './home/location-not-found-dialo
     AngularCommomModule,
     AngularMaterialModule,
     MainRoutingModule,
+  ],
+  providers: [
+    SchoolService
   ]
 })
 export class MainModule { }

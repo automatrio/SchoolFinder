@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL: "https://localhost:5001/api"
+  apiURL: "https://localhost:5001/api",
+  bingMapsCredentials: "AsXAoIWVfDyZeUDnGvxgkXdyJVE7-KWFeu2g2Kc1YiHnUsLCmLoX3myVPJS4UdAp",
 };
 
 /*

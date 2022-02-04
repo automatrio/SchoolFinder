@@ -1,73 +1,94 @@
 import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { EventBusService } from 'src/app/global/event-bus.service';
+import { environment } from 'src/environments/environment';
+import { PushpinFactory } from '../helpers/pushpin-factory.helper';
+import { Pushpin } from '../models/pushpin.model';
 
 @Component({
-  selector: 'app-bing-map',
+  selector: 'bing-map',
   templateUrl: './bing-map.component.html',
   styleUrls: ['./bing-map.component.scss']
 })
 export class BingMapComponent implements OnChanges, AfterViewInit  {
 
-  @ViewChild('streetsideMap') streetsideMapViewChild!: ElementRef;
+  pushPins$: Observable<Pushpin[]>;
+  foundLocationCoordinates$: Observable<number[]>;
 
-  // get center() {
-  //   return this.service.center$;
-  // }
+  map = new BehaviorSubject<Microsoft.Maps.Map | null>(null);
 
-  streetsideMap: Microsoft.Maps.Map;
+  @ViewChild('map') mapViewChild!: ElementRef;
 
-  position: Microsoft.Maps.Location;
+  constructor(public eventBusService: EventBusService) {
+    this.pushPins$ = this.eventBusService.pushPins.asObservable();
+    this.foundLocationCoordinates$ = this.eventBusService.foundLocationCoordinates.asObservable(); 
 
-  log: string[] = [];
-  
-  constructor() {
   }
 
   ngOnChanges() {
   }
 
-  ngAfterViewInit() {
-    // this.log.push('AfterViewInit');
-    this.createStreetSideMap();
-    // this.service.center$.pipe(
-    //   filter(coords => !!coords),
-    //   take(1)
-    // ).subscribe(coords => {
-    //   const [lat, lon] = coords;
-    //   this.log.push(`Got coords from service: ${coords}`);
-    //   const position = new Microsoft.Maps.Location(lat, lon);
-    //   this.streetsideMap.setView({ center: position });
-    //   this.log.push(`current Center: ${this.streetsideMap.getCenter()}`);
-    // });
+  async ngAfterViewInit() {
+    await this.createmap();
+    this.eventBusService.pushPins.subscribe(pins => {
+      pins.forEach(p => this.insertPushPin(p));
+    });
   }
 
-  createStreetSideMap() {
-    const center = new Microsoft.Maps.Location(47.6149, -122.1941);
+  async createmap() {
+    let foundLocationPushpin;
+    const center = await new Promise(resolve => {
+      this.eventBusService.foundLocationCoordinates.subscribe(coords => {
+        const location = {
+          latitude: coords[0],
+          longitude: coords[1]
+        } as Microsoft.Maps.Location;
+        foundLocationPushpin = PushpinFactory.fromLocation(coords);
+        resolve(location);
+      });
+    });
+
+    // this.map.setView({ center: location });
     const options = {
-      credentials: 'AsXAoIWVfDyZeUDnGvxgkXdyJVE7-KWFeu2g2Kc1YiHnUsLCmLoX3myVPJS4UdAp',
+      credentials: environment.bingMapsCredentials,
       center: center
     } as Microsoft.Maps.IMapLoadOptions;
 
-    this.streetsideMap = new Microsoft.Maps.Map(
-      this.streetsideMapViewChild.nativeElement,
+    this.map.next(new Microsoft.Maps.Map(
+      this.mapViewChild.nativeElement,
       options
-    );
+    ));
 
-    //Create custom Pushpin
-    var pin = new Microsoft.Maps.Pushpin(center, {
-      title: 'Microsoft',
-      subTitle: 'City Center',
-      text: '1'
-    });
+    this.insertPushPin(foundLocationPushpin);
+  }
+
+  public insertPushPin(pushPin: Pushpin) {
+    const location = {
+      latitude: pushPin.latitude,
+      longitude: pushPin.longitude
+    } as Microsoft.Maps.Location;
+
+    const pin = new Microsoft.Maps.Pushpin(location, pushPin.options);
 
     Microsoft.Maps.Events.addHandler(pin, 'mouseover', function (e: any) {
-      e.target.setOptions({ color: "#000000" });
+      e.target.setOptions({ transform: "scale(1.2)" });
     });
 
-      //Add the pushpin to the map
-      this.streetsideMap.entities.push(pin);
+    Microsoft.Maps.Events.addHandler(pin, 'click', function (e: any) {
+      console.log("Clicked", e.target);
+    });
+
+    const map = this.map.getValue();
+
+    if(map) {
+      map.entities.push(pin);
+      return;
+    } 
+
+    this.map.subscribe(map => {
+      map!.entities.push(pin);
+    });
   }
 
-  hasLogEntries() {
-    return this.log.length > 0;
-  }
+
 }

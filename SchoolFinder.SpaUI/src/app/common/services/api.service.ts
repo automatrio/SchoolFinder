@@ -20,12 +20,18 @@ export class ApiService {
     return this;
   }
 
-  public get<T>(parameters?: { [key: string]: string | number | boolean }) : Observable<HttpResponse<T>> {
+  public get<T>(parameters?: { [key: string]: any }) : Observable<HttpResponse<T>> {
     let httpParameters = new HttpParams();
 
     if (parameters)
       Object.keys(parameters).forEach(key => {
-        httpParameters = httpParameters.append(key, parameters[key]);
+        if (Array.isArray(parameters[key])) {
+          Array.from(parameters[key]).forEach((el: any) => {
+            httpParameters = httpParameters.append(key, el);
+          })
+        } else {
+          httpParameters = httpParameters.append(key, parameters[key]);
+        }
       });
     
     return this.httpClient.get<HttpResponse<T>>(`${this.apiURL}/${this.resource}`, { params: httpParameters });

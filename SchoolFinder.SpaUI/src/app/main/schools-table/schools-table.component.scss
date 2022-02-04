@@ -1,7 +1,53 @@
 table, table.mat-table {
-    width: 100vw;
+    // width: 100vw;
+    background: rgba(0, 18, 38, 0.6);
     & * {
-        color: black !important;
+        color: white !important;
+        text-shadow: 0px 0px 2px white;
+    }
+
+    .mat-header-cell {
+        border-bottom: 2px solid white;
+    }
+
+    .mat-column-name {
+        flex: none;
+        width: 400px;
+        padding-right: 10px;
+    }
+    .mat-column-address {
+        flex: none;
+        width: 400px;
+        padding-right: 10px;
+    }
+    .mat-column-distance {
+        flex: none;
+        width: 100px;
+        padding-right: 10px;
+    }
+    .mat-column-seeMap {
+        flex: none;
+        width: 100px;
+        text-align: center;
+        padding-right: 10px;
+    }
+}
+
+.mat-paginator {
+    // 50: #fcf3e4,
+    // 100: #f6e2bb,
+    // 200: #f1ce8e,
+    // 300: #ebba60,
+    // 400: #e6ac3e,
+    // 500: #e29d1c,
+    // 600: #df9519,
+    // 700: #da8b14,
+    // 800: #d68111,
+    // 900: #cf6f09,
+    background: none;
+    & * {
+        color: white !important;
+        text-shadow: 0px 0px 2px white;
     }
 }
   

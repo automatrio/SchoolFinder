@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { PushpinFactory } from 'src/app/common/helpers/pushpin-factory.helper';
+import { GeoLocation } from 'src/app/common/models/geo-location.model';
 import { HttpResponse } from 'src/app/common/models/http-response.model';
 import { ApiService } from 'src/app/common/services/api.service';
 import { EventBusService } from 'src/app/global/event-bus.service';
+import { SchoolService } from '../services/school.service';
 import { LocationNotFoundDialogComponent } from './location-not-found-dialog/location-not-found-dialog.component';
 
 @Component({
@@ -19,6 +22,7 @@ export class HomeComponent implements OnInit {
     private eventBusService: EventBusService,
     private apiService: ApiService,
     private dialog: MatDialog,
+    private schoolService: SchoolService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -33,7 +37,7 @@ export class HomeComponent implements OnInit {
   public searchForLocation() {
     this.apiService
       .setResource('BingMaps')
-      .get<Location>({ query: this.address })
+      .get<GeoLocation>({ query: this.address })
       .subscribe({
         next: response => this.handleLocationFound(response),
         error: (error) => this.openDialog(error.message, true),
@@ -51,11 +55,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private handleLocationFound(response: HttpResponse<Location>) {
-    console.log("response", response);
+  private handleLocationFound(response: HttpResponse<GeoLocation>) {
     if (response.count == 0 || response.data.length == 0) {
       this.openDialog("", false);
     };
-    
+    // handle multiple possible locations
+    const coords = response.data[0].point.coordinates;
+    this.eventBusService.foundLocationCoordinates.next(coords);
+    this.schoolService.getSchoolInfosAndDistance(coords).then(response => {
+      this.eventBusService.pushPins.next(response.data.map(s => PushpinFactory.fromSchool(s)));
+      this.eventBusService.nearestSchools.next(response);
+      this.router.navigateByUrl("/schools-table");
+    });
   }
 }

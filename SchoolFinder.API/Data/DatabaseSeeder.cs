@@ -18,8 +18,18 @@ namespace SchoolFinder.Data
 {
     public static class DatabaseSeeder
     {
-        public static Regex GetWordRegex = new Regex(@"([^\s]+)", RegexOptions.Compiled);
-        public static Regex IsNotAnEmailOrWebsiteRegex = new Regex(@"^[^\@\/\.\d]+$", RegexOptions.Compiled);
+        static Regex GetWordRegex = new Regex(@"([^\s\d]+)", RegexOptions.Compiled);
+        static Regex IsNotAnEmailOrWebsiteRegex = new Regex(@"^[^\@\/\.]+$", RegexOptions.Compiled);
+        static List<string> InstitutionsNames = new() {
+            "EMEI",
+            "IEI",
+            "EEI",
+            "EEF",
+            "CEU",
+            "EEEI",
+            "EE",
+        };
+
         public static async Task SeedDatabase(this IHost builder)
         {
             using (var scope = builder.Services.CreateScope())
@@ -94,6 +104,7 @@ namespace SchoolFinder.Data
                     {
                         var capitalizedWords = results.Select(word => 
                         {
+                            if (InstitutionsNames.Contains(word)) return word;
                             return word.Substring(0, 1).ToUpper() + word[1..].ToLower();
                         });
                         prop.SetValue(entity, string.Join(' ', capitalizedWords).TrimEnd());

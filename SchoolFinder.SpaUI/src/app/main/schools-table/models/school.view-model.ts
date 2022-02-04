@@ -9,8 +9,6 @@ export class School {
     addressNumber: string;
     neighborhood: string;        
     zipCode: string;
-    latitude: string;
-    longitude: string;
     telephoneNumber: string;            
     email: string;        
     website: string;                                       
@@ -18,5 +16,9 @@ export class School {
     twitter: string;
     facebook: string;
     situation: string;
+    
     distance: number;
+    latitude: number;
+    longitude: number;
+    seeMap: boolean = true;
 }

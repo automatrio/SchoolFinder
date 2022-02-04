@@ -14,6 +14,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchoolFinder.Data.Repositories;
+using SchoolFinder.Application;
+using SchoolFinder.Data.Models;
+using SchoolFinder.Application.Dtos;
+using SchoolFinder.Services;
 
 namespace SchoolFinder.API
 {
@@ -34,6 +38,9 @@ namespace SchoolFinder.API
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMem"));
             services.AddScoped<ISchoolRepository, SchoolRepository>();
+            // services.AddScoped<IRepository<School>, SchoolRepository>();
+            services.AddScoped<IGeoDistanceService, GeoDistanceService>();
+            // services.AddScoped<IApplicationService<School, SchoolDto>, ApplicationService<School, SchoolDto>>();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
