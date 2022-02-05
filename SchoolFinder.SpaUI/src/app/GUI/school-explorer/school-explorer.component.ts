@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { BingApiLoaderService } from 'src/app/common/bing-map/services/bing-api-loader.service';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { School } from 'src/app/main/schools-table/models/school.view-model';
+import { SchoolService } from 'src/app/main/schools-table/services/school.service';
 import { SchoolExplorerFieldsService } from './services/school-explorer-fields.service';
 
 @Component({
@@ -18,11 +19,14 @@ export class SchoolExplorerComponent implements AfterViewInit {
   constructor(
     private bingApiLoaderService: BingApiLoaderService,
     private eventBusService: EventBusService,
+    private schoolService: SchoolService,
     public fieldsService: SchoolExplorerFieldsService) {
       this.mapLoaded = eventBusService.mapLoaded.asObservable();
       this.schoolToExplore = eventBusService.schoolToExplore.asObservable();
       eventBusService.schoolToExplore.subscribe(school => {
-        this.fieldsService.fillOutForm(school);
+        this.schoolService.getOne(school.id).subscribe(response => {
+          this.fieldsService.fillOutForm(response.data[0]);
+        });
       });
     }
 
@@ -30,6 +34,10 @@ export class SchoolExplorerComponent implements AfterViewInit {
     this.bingApiLoaderService.load().then(() => {
       this.eventBusService.mapLoaded.next(true);
     });
+  }
+
+  public dismissSchoolExplorer() {
+    this.eventBusService.expandSchoolExplorer.next(false);
   }
 
 }

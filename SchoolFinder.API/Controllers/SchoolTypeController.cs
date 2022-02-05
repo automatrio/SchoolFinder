@@ -24,5 +24,11 @@ namespace SchoolFinder.API.Controllers
         {
             return await base.GetAll(filter);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return await base.GetById(id);
+        }
     }
 }

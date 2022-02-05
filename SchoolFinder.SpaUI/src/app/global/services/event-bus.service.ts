@@ -15,6 +15,7 @@ export class EventBusService {
   public expandSchoolExplorer = new BehaviorSubject<boolean>(false);
   public filterSchoolType = new ReplaySubject<SchoolType>(1);
   public filterAdministrativeDepartment = new ReplaySubject<SchoolAdministrativeDepartment>(1);
+  public filterMaxDistance = new ReplaySubject<number>(1);
   public foundLocationCoordinates = new BehaviorSubject<number[]>([]);
   public mapLoaded = new BehaviorSubject<boolean>(false);
   public nearestSchools = new ReplaySubject<HttpResponse<School>>(1);

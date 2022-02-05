@@ -42,6 +42,10 @@ export class FiltersPanelComponent implements OnInit {
     this.eventBusService[selector].next(data);
   }
 
+  public onMaxDistanceSelected() {
+    this.eventBusService.filterMaxDistance.next(this.filter.maxDistance);
+  }
+
   private getSchoolTypes() {
     this.filtersPanelService
       .getSchoolTypes()

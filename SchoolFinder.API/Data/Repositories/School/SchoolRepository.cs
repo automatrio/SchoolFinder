@@ -62,7 +62,9 @@ namespace SchoolFinder.Data.Repositories
                     .Skip(schoolFilter.PageNumber * schoolFilter.PaginationSize / 3)
                     .Take(schoolFilter.PaginationSize);
 
-                    var dbg = result.ToList();
+                if (schoolFilter.Distance > 0) {
+                    count = result.Count();
+                }
 
                 return new QueryResult<School>()
                 {

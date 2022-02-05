@@ -23,25 +23,21 @@ export class SchoolsTableComponent implements AfterViewInit {
 
   filter = {
     schoolTypeId: 0,
-    schoolAdministrativeTypeId: 0
+    schoolAdministrativeTypeId: 0,
+    distance: 0,
   };
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private eventBusService: EventBusService, private schoolService: SchoolService) {
     this.supplyExplorerWhenPushpinIsClicked();
-    this.eventBusService.filterSchoolType.subscribe(schoolType => {
-      this.filter.schoolTypeId = schoolType.id;
-    });
-    this.eventBusService.filterAdministrativeDepartment.subscribe(adminDep => {
-      this.filter.schoolAdministrativeTypeId = adminDep.id;
-    });
+    this.subscribeToFilterValues();
   }
 
   async ngAfterViewInit() {
     const coords = this.eventBusService.foundLocationCoordinates.getValue();
     await new Promise<void>(resolve => {
-      this.schoolService.getSchoolInfosAndDistance(coords, 0, this.filter).subscribe(response => {
+      this.schoolService.getSchoolInfosAndDistance(coords, 0, this.filter).subscribe(async response => {
         this.initializeTableAndExplorer(response);
         this.eventBusService.expandSchoolExplorer.next(true);
         resolve();
@@ -68,8 +64,21 @@ export class SchoolsTableComponent implements AfterViewInit {
     });
   }
 
-  public focusOnSchool(school: School) {
+  public async focusOnSchool(school: School) {
     this.eventBusService.schoolToExplore.next(school);
+    this.eventBusService.expandSchoolExplorer.next(true);
+  }
+
+  private subscribeToFilterValues() {
+    this.eventBusService.filterSchoolType.subscribe(schoolType => {
+      this.filter.schoolTypeId = schoolType.id;
+    });
+    this.eventBusService.filterAdministrativeDepartment.subscribe(adminDep => {
+      this.filter.schoolAdministrativeTypeId = adminDep.id;
+    });
+    this.eventBusService.filterMaxDistance.subscribe(distance => {
+      this.filter.distance = distance;
+    });
   }
 
   private insertPushpinsFromCurrentPage() {
@@ -83,7 +92,7 @@ export class SchoolsTableComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(data as School[]);
     this.dataSource.paginator = this.paginator;
     const currentIndex = this.latestPageEvent.pageIndex * this.latestPageEvent.pageSize;
-    this.eventBusService.schoolToExplore.next(data[currentIndex]!);
+    this.focusOnSchool(data[currentIndex]!)
   }
 
   private fillLazyLoadedDataArray(schools: HttpResponse<School>) {

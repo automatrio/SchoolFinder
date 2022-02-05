@@ -1,4 +1,9 @@
 <div class="school-explorer__container">
+    <div class="school-explorer__close-button">
+        <button mat-icon-button (click)="dismissSchoolExplorer()">
+            <mat-icon >close</mat-icon>
+        </button>
+    </div>
     <bing-map *ngIf="(mapLoaded | async)"></bing-map>
     <div class="school-explorer__scrollable">
         <form class="school-explorer__formGrid" [formGroup]="fieldsService.formGroup" *ngIf="(schoolToExplore | async)">

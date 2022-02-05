@@ -16,6 +16,7 @@
                 thumbLabel
                 [displayWith]="formatLabel"
                 [(ngModel)]="filter.maxDistance"
+                (ngModelChange)="onMaxDistanceSelected()"
                 tickInterval="1"
                 step=".5"
                 min="0"
