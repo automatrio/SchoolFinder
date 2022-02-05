@@ -68,7 +68,19 @@ namespace SchoolFinder.Data
 
                         if (update) 
                         {
-                            context.Schools.UpdateRange(schools);
+                            var trackedSchools = await context.Set<School>().AsTracking().ToListAsync();
+                            var props = typeof(School).GetProperties();
+                            foreach (var trackedSchool in trackedSchools)
+                            {
+                                var updatedSchool = schools.FirstOrDefault(s => s.SchoolId == trackedSchool.SchoolId);
+                                foreach(var prop in props)
+                                {
+                                    if (prop.Name == "Id" || prop.Name == "SchoolId") continue;
+                                    var updatedValue = prop.GetValue(updatedSchool);
+                                    prop.SetValue(trackedSchool, updatedValue);
+                                }
+                            }
+                            context.Schools.UpdateRange(trackedSchools);
                         }
                         else 
                         {

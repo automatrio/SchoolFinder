@@ -1,11 +1,11 @@
-using System.Linq;
 using System.Threading.Tasks;
+using SchoolFinder.Common;
 
 namespace SchoolFinder.Data.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IQueryable<T> GetAll(FilterBase filter);
-        Task<T> GetByIdAsync(object id);
+        QueryResult<TEntity> GetAll(IFilter<TEntity> filter);
+        Task<TEntity> GetByIdAsync(object id);
     }
 }

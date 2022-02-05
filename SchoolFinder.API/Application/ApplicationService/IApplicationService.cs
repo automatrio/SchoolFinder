@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SchoolFinder.Common;
 using SchoolFinder.Data;
 
 namespace SchoolFinder.Application
@@ -8,7 +9,7 @@ namespace SchoolFinder.Application
         where TEntity : class
         where TDto : class
     {
-        Task<IEnumerable<TDto>> GetAll(FilterBase filter);
-        Task<IEnumerable<TDto>> GetOneById(object id);
+        Task<QueryResult<TDto>> GetAll(IFilter<TEntity> filter);
+        Task<QueryResult<TDto>> GetOneById(object id);
     }
 }

@@ -22,8 +22,7 @@ namespace SchoolFinder.API.Controllers
             this.appService = appService;
         }
 
-        [HttpGet]
-        public virtual async Task<IActionResult> GetAll([FromQuery] FilterBase filter)
+        public virtual async Task<IActionResult> GetAll([FromQuery] IFilter<TEntity> filter)
         {
             return await this.ControllerFlow(async () => 
             {
@@ -31,8 +30,7 @@ namespace SchoolFinder.API.Controllers
             });
         }
 
-        [HttpGet("{id}")]
-        public virtual async Task<IActionResult> GetById([FromQuery] object id)
+        public virtual async Task<IActionResult> GetById(object id)
         {
             return await this.ControllerFlow(async () => 
             {
@@ -40,18 +38,20 @@ namespace SchoolFinder.API.Controllers
             });
         }
 
-        private async Task<IActionResult> ControllerFlow(Func<Task<IEnumerable<TDto>>> appServiceCall)
+        protected async Task<IActionResult> ControllerFlow(Func<Task<QueryResult<TDto>>> appServiceCall)
         {
             var response = new HttpResponse<TDto>();
             try
             {
                 var result = await appServiceCall();
-                response.Count = result.Count();
-                response.Data = result.ToList();
+                response.Count = result.Count;
+                response.Data = result.Data;
+                response.Success = true;
                 return Ok(response);
             }
             catch (Exception ex)
             {
+                response.Success = false;
                 response.Errors = new List<string>()
                 {
                     $"Error at: {this.GetType().Name}",

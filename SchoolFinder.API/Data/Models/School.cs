@@ -5,6 +5,28 @@ namespace SchoolFinder.Data.Models
 {
     public class School
     {
+        public School()
+        {
+        }
+
+        public School(
+            int id,
+            string address,
+            string name,
+            int addressNumber,
+            double distance,
+            double latitude,
+            double longitude)
+        {
+            this.Id = id;
+            this.Address = address; 
+            this.Name = name; 
+            this.AddressNumber = addressNumber; 
+            this.Distance = distance; 
+            this.Latitude = latitude; 
+            this.Longitude = longitude; 
+        }
+
         [Key]
         public int Id { get; set; }
         public int SchoolId { get; set; }

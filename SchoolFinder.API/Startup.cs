@@ -44,10 +44,11 @@ namespace SchoolFinder.API
                 Configuration.GetSection("ConnectionStrings:Default").Value
             ));
 
-            services.AddScoped<ISchoolRepository, SchoolRepository>();
-            // services.AddScoped<IRepository<School>, SchoolRepository>();
+            // services.AddScoped<ISchoolRepository, SchoolRepository>();
+            services.AddScoped<IRepository<School>, SchoolRepository>();
             services.AddScoped<IGeoDistanceService, GeoDistanceService>();
-            // services.AddScoped<IApplicationService<School, SchoolDto>, ApplicationService<School, SchoolDto>>();
+            services.AddScoped<IFilter<School>, SchoolFilter>();
+            services.AddScoped<IApplicationService<School, SchoolDto>, ApplicationService<School, SchoolDto>>();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
@@ -76,8 +77,12 @@ namespace SchoolFinder.API
 
             app.UseAuthorization();
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            if(!env.IsDevelopment()) 
+            {
+                app.UseDefaultFiles();
+                app.UseStaticFiles();
+            }
+
 
             app.UseEndpoints(endpoints =>
             {

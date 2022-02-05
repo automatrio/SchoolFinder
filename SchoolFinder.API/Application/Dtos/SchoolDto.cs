@@ -21,5 +21,6 @@ namespace SchoolFinder.Application.Dtos
         public string Twitter { get; set; }
         public string Facebook { get; set; }
         public string Situation { get; set; }
+        public double Distance  { get; set;}
     }
 }

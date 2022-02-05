@@ -23,6 +23,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           },
           error: (error) => {
             observer.error(error);
+            this.spinnerService.stop();
           },
           complete: () => {
             this.spinnerService.stop();

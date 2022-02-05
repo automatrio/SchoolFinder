@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SchoolFinder.Common;
 
 namespace SchoolFinder.Data.Repositories
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> 
-        where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DataContext context;
 
@@ -15,14 +15,20 @@ namespace SchoolFinder.Data.Repositories
             this.context = context;
         }
 
-        public virtual IQueryable<TEntity> GetAll(FilterBase filter)
+        public virtual QueryResult<TEntity> GetAll(IFilter<TEntity> filter)
         {
             var query = this.context
                 .Set<TEntity>()
                 .AsNoTracking();
-                
+
             query = this.CustomBehavior(query, filter);
-            return this.PaginateResult(query, filter);
+            query = this.CustomFilters(query, filter);
+
+            return new QueryResult<TEntity>()
+            {
+                Data = this.PaginateResult(query, filter),
+                Count = this.CustomCount(query, filter)
+            };
         }
 
         public virtual async Task<TEntity> GetByIdAsync(object id)
@@ -30,12 +36,22 @@ namespace SchoolFinder.Data.Repositories
             return await this.context.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual IQueryable<TEntity> CustomBehavior(IQueryable<TEntity> query, FilterBase filter)
+        protected virtual IQueryable<TEntity> CustomBehavior(IQueryable<TEntity> query, IFilter<TEntity> filter)
         {
             return query;
         }
 
-        public virtual IQueryable<TEntity> PaginateResult(IQueryable<TEntity> query, FilterBase filter)
+        protected virtual IQueryable<TEntity> CustomFilters(IQueryable<TEntity> query, IFilter<TEntity> filter)
+        {
+            return query;
+        }
+
+        protected virtual int CustomCount(IQueryable<TEntity> query, IFilter<TEntity> filter)
+        {
+            return query.Count();
+        }
+
+        protected virtual IQueryable<TEntity> PaginateResult(IQueryable<TEntity> query, IFilter<TEntity> filter)
         {
             if (filter.PaginationSize > 0 && filter.PageNumber > 0)
             {
