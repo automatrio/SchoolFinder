@@ -6,7 +6,7 @@ import { GeoLocation } from 'src/app/common/models/geo-location.model';
 import { HttpResponse } from 'src/app/common/models/http-response.model';
 import { ApiService } from 'src/app/common/services/api.service';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
-import { SchoolService } from '../services/school.service';
+import { SchoolService } from '../schools-table/services/school.service';
 import { LocationNotFoundDialogComponent } from './location-not-found-dialog/location-not-found-dialog.component';
 
 @Component({
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
     // handle multiple possible locations
     const coords = response.data[0].point.coordinates;
     this.eventBusService.foundLocationCoordinates.next(coords);
+    this.eventBusService.expandFiltersPanel.next(false);
     this.router.navigateByUrl("/schools-table");
   }
 }

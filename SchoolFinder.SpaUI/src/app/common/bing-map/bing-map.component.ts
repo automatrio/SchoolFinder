@@ -77,6 +77,7 @@ export class BingMapComponent implements AfterViewInit  {
 
   private zoomToLocationAfterFirstTime() {
     this.eventBusService.schoolToExplore.subscribe(school => {
+      console.log("Centering on school", school);
       const coords = [school.latitude, school.longitude];
       this.recenterMap(coords);
     });

@@ -37,7 +37,9 @@ export class FiltersPanelComponent implements OnInit {
     return value + 'km';
   }
 
-  public onFilterSelected(data: CarrouselData) {
+  public onFilterSelected(data: CarrouselData, type: 'SchoolType'|'AdministrativeDepartment') {
+    const selector = "filter" + type;
+    this.eventBusService[selector].next(data);
   }
 
   private getSchoolTypes() {

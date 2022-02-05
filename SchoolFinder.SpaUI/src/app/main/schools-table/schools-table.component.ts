@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PushpinFactory } from 'src/app/common/helpers/pushpin-factory.helper';
 import { HttpResponse } from 'src/app/common/models/http-response.model';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
-import { SchoolService } from '../services/school.service';
+import { SchoolService } from './services/school.service';
 import { School } from './models/school.view-model';
 
 @Component({
@@ -21,16 +21,27 @@ export class SchoolsTableComponent implements AfterViewInit {
     pageSize: 5,
   } as PageEvent;
 
+  filter = {
+    schoolTypeId: 0,
+    schoolAdministrativeTypeId: 0
+  };
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private eventBusService: EventBusService, private schoolService: SchoolService) {
     this.supplyExplorerWhenPushpinIsClicked();
+    this.eventBusService.filterSchoolType.subscribe(schoolType => {
+      this.filter.schoolTypeId = schoolType.id;
+    });
+    this.eventBusService.filterAdministrativeDepartment.subscribe(adminDep => {
+      this.filter.schoolAdministrativeTypeId = adminDep.id;
+    });
   }
 
   async ngAfterViewInit() {
     const coords = this.eventBusService.foundLocationCoordinates.getValue();
     await new Promise<void>(resolve => {
-      this.schoolService.getSchoolInfosAndDistance(coords).subscribe(response => {
+      this.schoolService.getSchoolInfosAndDistance(coords, 0, this.filter).subscribe(response => {
         this.initializeTableAndExplorer(response);
         this.eventBusService.expandSchoolExplorer.next(true);
         resolve();
@@ -45,11 +56,15 @@ export class SchoolsTableComponent implements AfterViewInit {
 
     const coords = this.eventBusService.foundLocationCoordinates.getValue();
     await new Promise<void>(resolve => {
-      this.schoolService.getSchoolInfosAndDistance(coords, event.pageIndex).subscribe(response => {
-        this.initializeTableAndExplorer(response);
-        this.eventBusService.expandSchoolExplorer.next(true);
-        resolve();
-      });
+      this.schoolService.getSchoolInfosAndDistance(
+          coords, 
+          event.pageIndex,
+          this.filter)
+        .subscribe(response => {
+          this.initializeTableAndExplorer(response);
+          this.eventBusService.expandSchoolExplorer.next(true);
+          resolve();
+        });
     });
   }
 
@@ -67,7 +82,8 @@ export class SchoolsTableComponent implements AfterViewInit {
     const data = this.fillLazyLoadedDataArray(schools);
     this.dataSource = new MatTableDataSource(data as School[]);
     this.dataSource.paginator = this.paginator;
-    this.eventBusService.schoolToExplore.next(schools.data[0]);
+    const currentIndex = this.latestPageEvent.pageIndex * this.latestPageEvent.pageSize;
+    this.eventBusService.schoolToExplore.next(data[currentIndex]!);
   }
 
   private fillLazyLoadedDataArray(schools: HttpResponse<School>) {

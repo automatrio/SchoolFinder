@@ -18,6 +18,7 @@ using SchoolFinder.Application;
 using SchoolFinder.Data.Models;
 using SchoolFinder.Application.Dtos;
 using SchoolFinder.Services;
+using SchoolFinder.Extensions;
 
 namespace SchoolFinder.API
 {
@@ -37,14 +38,11 @@ namespace SchoolFinder.API
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
-            // Development: InMemoryDatabase
-            // services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMem"));
-            // Production: SqlServer
             services.AddDbContext<DataContext>(options => options.UseSqlServer(
                 Configuration.GetSection("ConnectionStrings:Default").Value
             ));
 
-            // services.AddScoped<ISchoolRepository, SchoolRepository>();
+            services.AddAppServices();
 
             services.AddCors();
             services.AddSwaggerGen(c =>

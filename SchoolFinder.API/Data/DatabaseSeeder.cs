@@ -45,6 +45,7 @@ namespace SchoolFinder.Data
                     {
                         var context = scope.ServiceProvider.GetRequiredService<DataContext>();
                         var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                        var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
 
                         context.Database.Migrate();
 
@@ -54,12 +55,6 @@ namespace SchoolFinder.Data
                         var response = await ExternalRequest<DataPOAHttpResponseDto<DataPOASchoolDto>>.Execute(url, ("limit", 5000));
 
                         if (!response.Success) continue;
-
-                        var mapperConfiguration = new MapperConfiguration(config => {
-                            config.CreateMap<DataPOASchoolDto, School>().ReverseMap();    
-                        });
-
-                        IMapper mapper = mapperConfiguration.CreateMapper();
 
                         var schools = response.Result.Schools.Select(dto => {
                             var entity = mapper.Map<School>(dto);

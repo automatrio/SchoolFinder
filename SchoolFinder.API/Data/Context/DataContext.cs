@@ -16,5 +16,7 @@ namespace SchoolFinder.Data
         }
 
         public DbSet<School> Schools { get; set; }
+        public DbSet<SchoolType> SchoolTypes { get; set; }
+        public DbSet<SchoolAdministrativeDepartment> SchoolAdministrativeDepartments { get; set; }
     }
 }

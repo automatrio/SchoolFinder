@@ -1,4 +1,7 @@
-public enum EQueryBehavior
+namespace SchoolFinder.Data.Enums
 {
-    OrderBySmallestDistance
+    public enum EQueryBehavior
+    {
+        OrderBySmallestDistance
+    }
 }

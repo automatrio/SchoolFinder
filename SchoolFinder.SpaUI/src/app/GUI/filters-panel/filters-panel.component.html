@@ -25,8 +25,14 @@
             <label>Distância Máxima</label>
         </div>
         <ng-container *ngIf="schoolTypes && schoolAdministrativeDepartments">
-            <app-carrousel (change)="onFilterSelected($event)" [carrouselData]="schoolTypes"></app-carrousel>
-            <app-carrousel (change)="onFilterSelected($event)" [carrouselData]="schoolAdministrativeDepartments"></app-carrousel>
+            <app-carrousel 
+                (change)="onFilterSelected($event, 'SchoolType')"
+                [carrouselData]="schoolTypes">
+            </app-carrousel>
+            <app-carrousel 
+                (change)="onFilterSelected($event, 'AdministrativeDepartment')"
+                [carrouselData]="schoolAdministrativeDepartments">
+            </app-carrousel>
         </ng-container>
     </main>
 </div>

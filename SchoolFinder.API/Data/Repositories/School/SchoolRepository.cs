@@ -2,6 +2,7 @@ using System.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SchoolFinder.Common;
+using SchoolFinder.Data.Enums;
 using SchoolFinder.Data.Filters;
 using SchoolFinder.Data.Models;
 using SchoolFinder.Services;
@@ -58,7 +59,7 @@ namespace SchoolFinder.Data.Repositories
                     ))
                     .OrderBy(_ => _.Distance)
                     .Where(_ => schoolFilter.Distance == 0.0d || _.Distance <= schoolFilter.Distance)
-                    .Skip(schoolFilter.PageNumber * schoolFilter.PaginationSize)
+                    .Skip(schoolFilter.PageNumber * schoolFilter.PaginationSize / 3)
                     .Take(schoolFilter.PaginationSize);
 
                     var dbg = result.ToList();
