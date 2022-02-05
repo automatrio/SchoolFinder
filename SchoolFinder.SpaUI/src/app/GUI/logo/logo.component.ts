@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 
 @Component({
   selector: 'app-logo',

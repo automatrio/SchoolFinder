@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { HttpResponse } from '../common/models/http-response.model';
-import { Pushpin } from '../common/models/pushpin.model';
-import { School } from '../main/schools-table/models/school.view-model';
+import { HttpResponse } from '../../common/models/http-response.model';
+import { Pushpin } from '../../common/models/pushpin.model';
+import { School } from '../../main/schools-table/models/school.view-model';
 
 @Injectable({
   providedIn: 'root'

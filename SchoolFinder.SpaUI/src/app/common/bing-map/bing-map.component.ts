@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { environment } from 'src/environments/environment';
 import { PushpinFactory } from '../helpers/pushpin-factory.helper';
 import { Pushpin } from '../models/pushpin.model';
@@ -22,7 +22,6 @@ export class BingMapComponent implements AfterViewInit  {
   constructor(public eventBusService: EventBusService) {
     this.pushPins$ = this.eventBusService.pushPins.asObservable();
     this.foundLocationCoordinates$ = this.eventBusService.foundLocationCoordinates.asObservable(); 
-
   }
 
   async ngAfterViewInit() {
@@ -72,6 +71,15 @@ export class BingMapComponent implements AfterViewInit  {
       this.mapViewChild.nativeElement,
       options
     ));
+
+    this.zoomToLocationAfterFirstTime();
+  }
+
+  private zoomToLocationAfterFirstTime() {
+    this.eventBusService.schoolToExplore.subscribe(school => {
+      const coords = [school.latitude, school.longitude];
+      this.recenterMap(coords);
+    });
   }
 
   private insertPushPin(pushPin: Pushpin, clickable = true) {
@@ -112,6 +120,18 @@ export class BingMapComponent implements AfterViewInit  {
 
     this.map.subscribe(map => {
       map!.entities.push(pin);
+    });
+  }
+
+  private async recenterMap(coords: number[]) {
+    const location = {
+      latitude: coords[0],
+      longitude: coords[1]
+    } as Microsoft.Maps.Location;
+
+    this.map.getValue()?.setView({
+      center: location,
+      zoom: 15
     });
   }
 }

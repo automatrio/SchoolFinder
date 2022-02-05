@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PushpinFactory } from 'src/app/common/helpers/pushpin-factory.helper';
 import { HttpResponse } from 'src/app/common/models/http-response.model';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { SchoolService } from '../services/school.service';
 import { School } from './models/school.view-model';
 
@@ -51,6 +51,10 @@ export class SchoolsTableComponent implements AfterViewInit {
         resolve();
       });
     });
+  }
+
+  public focusOnSchool(school: School) {
+    this.eventBusService.schoolToExplore.next(school);
   }
 
   private insertPushpinsFromCurrentPage() {

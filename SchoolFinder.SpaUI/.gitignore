@@ -7,6 +7,8 @@
 /bazel-out
 /bin
 /obj
+/.vscode
+/.vs
 
 # Node
 /node_modules

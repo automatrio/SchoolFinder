@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSliderModule
   ], exports: [
     MatSidenavModule,
     MatInputModule,
@@ -30,6 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSliderModule
   ]
 })
 export class AngularMaterialModule { }

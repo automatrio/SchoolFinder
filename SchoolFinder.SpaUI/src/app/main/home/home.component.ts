@@ -5,7 +5,7 @@ import { PushpinFactory } from 'src/app/common/helpers/pushpin-factory.helper';
 import { GeoLocation } from 'src/app/common/models/geo-location.model';
 import { HttpResponse } from 'src/app/common/models/http-response.model';
 import { ApiService } from 'src/app/common/services/api.service';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { SchoolService } from '../services/school.service';
 import { LocationNotFoundDialogComponent } from './location-not-found-dialog/location-not-found-dialog.component';
 

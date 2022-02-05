@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EventBusService } from './global/event-bus.service';
+import { EventBusService } from './global/services/event-bus.service';
 
 @Component({
   selector: 'app-root',

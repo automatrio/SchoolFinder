@@ -10,6 +10,21 @@
             {{"Filtros"}}
         </h3>
     </header>
-    <app-carrousel [carrouselData]="schoolTypes"></app-carrousel>
-    <app-carrousel [carrouselData]="schoolPaymentOptions"></app-carrousel>
+    <main>
+        <div class="slider__container">
+            <mat-slider
+                thumbLabel
+                [displayWith]="formatLabel"
+                [(ngModel)]="filter.maxDistance"
+                tickInterval="1"
+                step=".5"
+                min="0"
+                max="100"
+                aria-label="units">
+            </mat-slider>
+            <label>Distância Máxima</label>
+        </div>
+        <app-carrousel [carrouselData]="schoolTypes"></app-carrousel>
+        <app-carrousel [carrouselData]="schoolPaymentOptions"></app-carrousel>
+    </main>
 </div>

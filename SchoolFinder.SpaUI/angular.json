@@ -32,7 +32,8 @@
             ],
             "styles": [
               "src/app/theme/automatrio-theme.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-spinner/animations/ball-fussion.css"
             ],
             "scripts": []
           },

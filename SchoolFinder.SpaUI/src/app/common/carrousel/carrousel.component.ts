@@ -24,11 +24,11 @@ export let direction = {
     ]),
     trigger('enterLeave', [
       transition(':enter', [
-        style({ transform: `translateX(${direction.left}px)`, opacity: 0 }),
-        animate('200ms', style({ transform: `translateX(${direction.center}px)`, opacity: 1 })),
+        style({ filter: 'blur(5px)', opacity: 0 }),
+        animate('200ms', style({ filter: 'blur(0px)', opacity: 1 })),
       ]),
       transition(':leave', [
-        animate('200ms', style({ transform: `translateX(${direction.right}px)`, opacity: 0 })),
+        animate('200ms', style({ filter: 'blur(5px)', opacity: 0 })),
       ])
     ]),
   ]

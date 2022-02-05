@@ -1,12 +1,10 @@
-.logo-container {
+.logo__container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-
     h1 {
         margin: 0px;
         text-shadow: 0px 0px 3px white;
+        font-size: 35px;
         font-weight: 900;
     }
 
@@ -27,7 +25,12 @@
         transition: 150ms;
     }
 
-    .img-container {
+    .img__container {
+        display: grid;
+        grid-template-columns: repeat(3, 110px);
+        align-items: center;
+        justify-items: center;
+
         &:hover {
         cursor: pointer;
         .glow {

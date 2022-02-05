@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BingApiLoaderService } from 'src/app/common/bing-map/services/bing-api-loader.service';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { School } from 'src/app/main/schools-table/models/school.view-model';
 import { SchoolExplorerFieldsService } from './services/school-explorer-fields.service';
 

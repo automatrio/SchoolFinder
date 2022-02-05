@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarrouselData } from 'src/app/common/carrousel/models/carrousel-data.view-model';
-import { EventBusService } from 'src/app/global/event-bus.service';
+import { EventBusService } from 'src/app/global/services/event-bus.service';
 
 @Component({
   selector: 'app-filters-panel',
@@ -8,6 +8,10 @@ import { EventBusService } from 'src/app/global/event-bus.service';
   styleUrls: ['./filters-panel.component.scss']
 })
 export class FiltersPanelComponent implements OnInit {
+
+  filter = {
+    maxDistance: 100
+  };
 
   schoolTypes: CarrouselData[] = [{
     imageSrc: "family_restroom",
@@ -48,6 +52,9 @@ export class FiltersPanelComponent implements OnInit {
 
   public dismissFiltersPanel() {
     this.eventBusService.expandFiltersPanel.next(false);
+  }
+  public formatLabel(value: number) {
+    return value + 'km';
   }
 
 }
