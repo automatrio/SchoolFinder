@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchoolFinder.Common;
+using SchoolFinder.Data.Filters;
 using SchoolFinder.Data.Models;
 using SchoolFinder.Services;
 
@@ -30,8 +28,8 @@ namespace SchoolFinder.Data.Repositories
                 var query = this.context
                 .Set<School>()
                 .AsNoTracking()
-                .Where(_ => schoolFilter.Type == null || _.Type == schoolFilter.Type)
-                .Where(_ => schoolFilter.AdministrativeDepartment == null || _.AdministrativeDepartment == schoolFilter.AdministrativeDepartment)
+                .Where(_ => schoolFilter.SchoolTypeId == 0 || _.SchoolTypeId == schoolFilter.SchoolTypeId)
+                .Where(_ => schoolFilter.SchoolAdministrativeDepartmentId == 0 || _.SchoolAdministrativeDepartmentId == schoolFilter.SchoolAdministrativeDepartmentId)
                 .Select(_ => new School
                 (
                     _.Id,

@@ -45,10 +45,7 @@ namespace SchoolFinder.API
             ));
 
             // services.AddScoped<ISchoolRepository, SchoolRepository>();
-            services.AddScoped<IRepository<School>, SchoolRepository>();
-            services.AddScoped<IGeoDistanceService, GeoDistanceService>();
-            services.AddScoped<IFilter<School>, SchoolFilter>();
-            services.AddScoped<IApplicationService<School, SchoolDto>, ApplicationService<School, SchoolDto>>();
+
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

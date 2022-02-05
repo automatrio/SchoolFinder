@@ -5,6 +5,9 @@ namespace SchoolFinder.Data.Models
 {
     public class School
     {
+        public virtual SchoolType SchoolType { get; set;}
+        public virtual SchoolAdministrativeDepartment SchoolAdministrativeType { get; set;}
+
         public School()
         {
         }
@@ -30,8 +33,8 @@ namespace SchoolFinder.Data.Models
         [Key]
         public int Id { get; set; }
         public int SchoolId { get; set; }
-        public string AdministrativeDepartment { get; set; }
-        public string Type { get; set; }
+        public int SchoolAdministrativeDepartmentId { get; set; }
+        public int SchoolTypeId { get; set; }
         public string Name { get; set; }                                
         public string NickName { get; set; }                    
         public string Address { get; set; }                                   

@@ -24,7 +24,9 @@
             </mat-slider>
             <label>Distância Máxima</label>
         </div>
-        <app-carrousel [carrouselData]="schoolTypes"></app-carrousel>
-        <app-carrousel [carrouselData]="schoolPaymentOptions"></app-carrousel>
+        <ng-container *ngIf="schoolTypes && schoolAdministrativeDepartments">
+            <app-carrousel (change)="onFilterSelected($event)" [carrouselData]="schoolTypes"></app-carrousel>
+            <app-carrousel (change)="onFilterSelected($event)" [carrouselData]="schoolAdministrativeDepartments"></app-carrousel>
+        </ng-container>
     </main>
 </div>

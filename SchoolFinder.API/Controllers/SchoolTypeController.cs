@@ -9,18 +9,18 @@ namespace SchoolFinder.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SchoolController : ControllerBase<School, SchoolDto>
+    public class SchoolTypeController : ControllerBase<SchoolType, SchoolTypeDto>
     {
-        private readonly IApplicationService<School, SchoolDto> applicationService;
+        private readonly IApplicationService<SchoolType, SchoolTypeDto> applicationService;
 
-        public SchoolController(IApplicationService<School, SchoolDto> applicationService) : base(applicationService)
+        public SchoolTypeController(IApplicationService<SchoolType, SchoolTypeDto> applicationService) : base(applicationService)
         {
             this.applicationService = applicationService;
         }
 
         
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] SchoolFilter filter)
+        public async Task<IActionResult> GetAll([FromQuery] SchoolTypeFilter filter)
         {
             return await base.GetAll(filter);
         }

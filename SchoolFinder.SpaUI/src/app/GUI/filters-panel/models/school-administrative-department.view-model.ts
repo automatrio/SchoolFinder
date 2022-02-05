@@ -1,4 +1,4 @@
-export class CarrouselData {
+export class SchoolAdministrativeDepartment {
     id: number;
     imageSrc: string;
     title: string;

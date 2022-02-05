@@ -1,5 +1,5 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { CarrouselData } from './models/carrousel-data.view-model';
 
 export let direction = {
@@ -36,10 +36,10 @@ export let direction = {
 export class CarrouselComponent implements OnInit {
 
   currentItemIndex: number = 0;
-  lastDirection: 'left' | 'right' = 'right';
 
   @Input() carrouselData: CarrouselData[];
-  
+  @Output() change = new EventEmitter<CarrouselData>();
+
   @HostBinding("style.--carrousel__color") color: string;
 
   constructor() { }
@@ -49,20 +49,11 @@ export class CarrouselComponent implements OnInit {
   }
 
   changeCurrentItemIndex(value: number) {
-      this.lastDirection = value < 0
-        ? 'left'
-        : 'right';
-
-    if (value < 0 && this.lastDirection == 'right') {
-      [direction.right, direction.left] = [direction.left, direction.right];
-    } else if (value > 0 && this.lastDirection == 'left') {
-      [direction.right, direction.left] = [direction.left, direction.right];
-    }
-
     this.currentItemIndex += value;
     this.currentItemIndex %= (this.carrouselData.length);
     this.currentItemIndex = Math.abs(this.currentItemIndex);
     this.assignColor();
+    this.change?.emit(this.carrouselData[this.currentItemIndex]);
   }
 
   assignColor = () => this.color = this.carrouselData[this.currentItemIndex].color;

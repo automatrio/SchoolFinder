@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CarrouselData } from 'src/app/common/carrousel/models/carrousel-data.view-model';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
+import { SchoolAdministrativeDepartment } from './models/school-administrative-department.view-model';
+import { SchoolType } from './models/school-type.view-model';
+import { FiltersPanelService } from './services/filters-panel.service';
 
 @Component({
   selector: 'app-filters-panel',
@@ -13,39 +16,15 @@ export class FiltersPanelComponent implements OnInit {
     maxDistance: 100
   };
 
-  schoolTypes: CarrouselData[] = [{
-    imageSrc: "family_restroom",
-    title: "Todos os Níveis",
-    color: "#8c00ff"
-  }, {
-    imageSrc: "child_care",
-    title: "Educação Infantil",
-    color: "#6bc8ffa6"
-  }, {
-    imageSrc: "toys",
-    title: "Ensino Fundamental",
-    color: "#edff26"
-  }, {
-    imageSrc: "smart_toy",
-    title: "Ensino Médio",
-    color: "#14ff14"
-  }];
+  schoolTypes: CarrouselData[];
+  schoolAdministrativeDepartments: CarrouselData[];
 
-  schoolPaymentOptions: CarrouselData[] = [{
-    imageSrc: "groups",
-    title: "Todos os Setores",
-    color: "#ff3333"
-  }, {
-    imageSrc: "account_balance",
-    title: "Público",
-    color: "#ff8f14"
-  }, {
-    imageSrc: "savings",
-    title: "Privado",
-    color: "#ff33ee"
-  }];
-
-  constructor(private eventBusService: EventBusService) { }
+  constructor(
+    private eventBusService: EventBusService,
+    private filtersPanelService: FiltersPanelService) {
+      this.getAdministrativeDepartments();
+      this.getSchoolTypes();
+  }
 
   ngOnInit(): void {
   }
@@ -53,8 +32,28 @@ export class FiltersPanelComponent implements OnInit {
   public dismissFiltersPanel() {
     this.eventBusService.expandFiltersPanel.next(false);
   }
+
   public formatLabel(value: number) {
     return value + 'km';
+  }
+
+  public onFilterSelected(data: CarrouselData) {
+  }
+
+  private getSchoolTypes() {
+    this.filtersPanelService
+      .getSchoolTypes()
+      .subscribe(response => {
+        this.schoolTypes = response.data as CarrouselData[];
+      });
+  }
+
+  private getAdministrativeDepartments() {
+    this.filtersPanelService
+      .getSchoolAdministrativeDepartments()
+      .subscribe(response => {
+        this.schoolAdministrativeDepartments = response.data as CarrouselData[];
+      });
   }
 
 }
