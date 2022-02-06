@@ -18,6 +18,7 @@ namespace SchoolFinder.Extensions
             services.AddScoped<IApplicationService<School, SchoolDto>, ApplicationService<School, SchoolDto>>();
             services.AddScoped<IApplicationService<SchoolType, SchoolTypeDto>, ApplicationService<SchoolType, SchoolTypeDto>>();
             services.AddScoped<IApplicationService<SchoolAdministrativeDepartment, SchoolAdministrativeDepartmentDto>, ApplicationService<SchoolAdministrativeDepartment, SchoolAdministrativeDepartmentDto>>();
+            services.AddScoped<IBingMapsService, BingMapsService>();
             return services;
         }
     }

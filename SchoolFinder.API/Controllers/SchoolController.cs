@@ -17,13 +17,29 @@ namespace SchoolFinder.API.Controllers
         {
             this.applicationService = applicationService;
         }
-        
+
+        /// <summary>
+        /// Fetches Schools from this application's database, which is a reflection of DataPOA's one,
+        /// the only difference being that text fields have been formatted to better suit visual presentation.
+        /// Use "OrderBySmallestDistance" as QueryBehavior to modify the query accordigly.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SchoolFilter filter)
         {
             return await base.GetAll(filter);
         }
 
+        /// <summary>
+        /// Retrieves one School with the specified ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -18,13 +18,27 @@ namespace SchoolFinder.API.Controllers
             this.applicationService = applicationService;
         }
 
-        
+
+        /// <summary>
+        /// Retrieves all SchoolAdministrativeDepartments or only those specified by its filter's parameters.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SchoolAdministrativeDepartmentFilter filter)
         {
             return await base.GetAll(filter);
         }
 
+        /// <summary>
+        /// Fetches one SchoolAdministrativeDepartment designated by the ID parameter.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

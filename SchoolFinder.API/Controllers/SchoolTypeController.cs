@@ -18,13 +18,26 @@ namespace SchoolFinder.API.Controllers
             this.applicationService = applicationService;
         }
 
-        
+        /// <summary>
+        /// Retrieves all SchoolTypes or only those specified by its filter's parameters.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SchoolTypeFilter filter)
         {
             return await base.GetAll(filter);
         }
 
+        /// <summary>
+        /// Fetches one SchoolType designated by the ID parameter.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// An HttpResponse object.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
