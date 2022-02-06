@@ -22,7 +22,7 @@ namespace SchoolFinder.API.Controllers
             this.appService = appService;
         }
 
-        public virtual async Task<IActionResult> GetAll([FromQuery] IFilter<TEntity> filter)
+        protected virtual async Task<IActionResult> GetAll([FromQuery] IFilter<TEntity> filter)
         {
             return await this.ControllerFlow(async () => 
             {
@@ -30,7 +30,7 @@ namespace SchoolFinder.API.Controllers
             });
         }
 
-        public virtual async Task<IActionResult> GetById(object id)
+        protected virtual async Task<IActionResult> GetById(object id)
         {
             return await this.ControllerFlow(async () => 
             {

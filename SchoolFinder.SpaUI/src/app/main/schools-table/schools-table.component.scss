@@ -31,6 +31,12 @@ table, table.mat-table {
         text-align: center;
         padding-right: 10px;
     }
+    .mat-column-seeRoute {
+        flex: none;
+        width: 100px;
+        text-align: center;
+        padding-right: 10px;
+    }
 }
 
 .mat-paginator {

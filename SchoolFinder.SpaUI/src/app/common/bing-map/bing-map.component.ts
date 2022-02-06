@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
+import { ToastService } from 'src/app/global/services/toast.service';
 import { environment } from 'src/environments/environment';
 import { PushpinFactory } from '../helpers/pushpin-factory.helper';
 import { Pushpin } from '../models/pushpin.model';
@@ -15,11 +16,12 @@ export class BingMapComponent implements AfterViewInit  {
   pushPins$: Observable<Pushpin[]>;
   foundLocationCoordinates$: Observable<number[]>;
   currentPins: {pushpin: Microsoft.Maps.Pushpin, schoolId: number}[] = [];
+  directionsManager: Microsoft.Maps.Directions.DirectionsManager;
   map = new BehaviorSubject<Microsoft.Maps.Map | null>(null);
 
   @ViewChild('map') mapViewChild!: ElementRef;
 
-  constructor(public eventBusService: EventBusService) {
+  constructor(public eventBusService: EventBusService, private toastService: ToastService) {
     this.pushPins$ = this.eventBusService.pushPins.asObservable();
     this.foundLocationCoordinates$ = this.eventBusService.foundLocationCoordinates.asObservable(); 
   }
@@ -72,14 +74,19 @@ export class BingMapComponent implements AfterViewInit  {
       options
     ));
 
-    this.zoomToLocationAfterFirstTime();
+    this.showSchoolOrRoutetoSchoolAfterFirstTime();
   }
 
-  private zoomToLocationAfterFirstTime() {
+  private showSchoolOrRoutetoSchoolAfterFirstTime() {
     this.eventBusService.schoolToExplore.subscribe(school => {
-      console.log("Centering on school", school);
-      const coords = [school.latitude, school.longitude];
-      this.recenterMap(coords);
+      const destinationCoords = [school.latitude, school.longitude];
+      if (!school.seeRoute) {
+        
+        this.recenterMap(destinationCoords);
+      } else {
+        const originCoords = this.eventBusService.foundLocationCoordinates.getValue();
+        this.getRoute(originCoords, destinationCoords);
+      }
     });
   }
 
@@ -134,5 +141,46 @@ export class BingMapComponent implements AfterViewInit  {
       center: location,
       zoom: 15
     });
+  }
+
+  private getRoute(origin: number[], destination: number[]) {
+    const map = this.map.getValue();
+    if (!map) return;
+
+    if(this.directionsManager) {
+      this.directionsManager.clearAll();
+    }
+
+    Microsoft.Maps.loadModule('Microsoft.Maps.Directions', () => {
+      const originWaypoint = new Microsoft.Maps.Directions.Waypoint({
+        location: {
+          latitude: origin[0],
+          longitude: origin[1]
+        } as Microsoft.Maps.Location
+      } as Microsoft.Maps.Directions.IWaypointOptions);
+  
+      const destinationWaypoint = new Microsoft.Maps.Directions.Waypoint({
+        location: {
+          latitude: destination[0],
+          longitude: destination[1]
+        } as Microsoft.Maps.Location
+      } as Microsoft.Maps.Directions.IWaypointOptions);
+      
+  
+      this.directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+      
+
+      this.directionsManager.addWaypoint(originWaypoint);
+      this.directionsManager.addWaypoint(destinationWaypoint);
+  
+      Microsoft.Maps.Events.addHandler(this.directionsManager, 'directionsError', this.directionsError);
+
+      this.directionsManager.calculateDirections();
+    });
+  }
+
+  private directionsError(error: any) {
+    this.toastService.openDialog("Desculpe, não foi possível encontrar a rota!", true);
   }
 }

@@ -21,4 +21,5 @@ export class School {
     latitude: number;
     longitude: number;
     seeMap: boolean = true;
+    seeRoute: boolean;
 }

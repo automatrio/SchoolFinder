@@ -17,7 +17,6 @@ namespace SchoolFinder.API.Controllers
         {
             this.applicationService = applicationService;
         }
-
         
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SchoolFilter filter)

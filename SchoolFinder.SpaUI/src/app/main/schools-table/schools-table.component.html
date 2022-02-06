@@ -26,11 +26,19 @@
           <button mat-icon-button (click)="focusOnSchool(row)"><mat-icon>visibility</mat-icon> </button>
         </td>
       </ng-container>
+
+      <!-- SeeRoute Column -->
+      <ng-container matColumnDef="seeRoute">
+        <th mat-header-cell *matHeaderCellDef> Ver Rota </th>
+        <td mat-cell *matCellDef="let row"> 
+          <button mat-icon-button (click)="routeToSchool(row)"><mat-icon>directions_run</mat-icon> </button>
+        </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
-      <!-- Row shown when there is no matching data. -->
+      <!-- Quando não há dados -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">Desculpe, nenhum dado corresponde aos filtros escolhidos.</td>
       </tr>

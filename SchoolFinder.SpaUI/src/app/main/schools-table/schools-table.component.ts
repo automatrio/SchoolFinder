@@ -14,7 +14,7 @@ import { School } from './models/school.view-model';
 })
 export class SchoolsTableComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ["name", "address", "distance", "seeMap"];
+  displayedColumns: string[] = ["name", "address", "distance", "seeMap", "seeRoute"];
   dataSource: MatTableDataSource<School>;
   latestPageEvent = {
     pageIndex: 0,
@@ -65,9 +65,18 @@ export class SchoolsTableComponent implements AfterViewInit {
   }
 
   public async focusOnSchool(school: School) {
+    school.seeMap = true;
+    school.seeRoute = false;
     this.eventBusService.schoolToExplore.next(school);
     this.eventBusService.expandSchoolExplorer.next(true);
   }
+
+  public routeToSchool(school: School) {
+    school.seeMap = true;
+    school.seeRoute = true;
+    this.eventBusService.schoolToExplore.next(school);
+    this.eventBusService.expandSchoolExplorer.next(true);
+  } 
 
   private subscribeToFilterValues() {
     this.eventBusService.filterSchoolType.subscribe(schoolType => {
