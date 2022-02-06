@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PushpinFactory } from 'src/app/common/helpers/pushpin-factory.helper';
@@ -8,14 +8,14 @@ import { ApiService } from 'src/app/common/services/api.service';
 import { EventBusService } from 'src/app/global/services/event-bus.service';
 import { ToastService } from 'src/app/global/services/toast.service';
 import { SchoolService } from '../schools-table/services/school.service';
-import { LocationNotFoundDialogComponent } from '../../common/location-not-found-dialog/location-not-found-dialog.component';
+import { LocationNotFoundDialogComponent } from '../../common/dialogs/location-not-found-dialog.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit {
 
   address: string;
 
@@ -25,7 +25,12 @@ export class HomeComponent implements OnInit {
     private toastService: ToastService,
     private router: Router) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    const isFirstTime = localStorage.getItem("firstTime");
+    if (!isFirstTime) {
+      this.toastService.openWelcomeDialog();
+      localStorage.setItem("firstTime", "false");
+    }
   }
 
   public expandFilterMenu() {
@@ -39,13 +44,14 @@ export class HomeComponent implements OnInit {
       .get<GeoLocation>({ query: this.address })
       .subscribe({
         next: response => this.handleLocationFound(response),
-        error: (error) => this.toastService.openDialog(error.message, true),
+        error: (error) => this.toastService.openErrorDialog(error.message, true),
     });
   }
 
   private handleLocationFound(response: HttpResponse<GeoLocation>) {
     if (response.count == 0 || response.data.length == 0) {
-      this.toastService.openDialog("", false);
+      this.toastService.openErrorDialog("", false);
+      return;
     };
     // handle multiple possible locations
     const coords = response.data[0].point.coordinates;

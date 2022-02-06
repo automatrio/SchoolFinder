@@ -44,4 +44,4 @@
       </tr>
     </table>
   </div>
-  <mat-paginator [pageSizeOptions]="[5]" aria-label="Select page of users" (page)="onPageChange($event)"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5]" [hidePageSize]="true" aria-label="Select page of users" (page)="onPageChange($event)"></mat-paginator>

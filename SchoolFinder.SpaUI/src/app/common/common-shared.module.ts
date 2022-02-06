@@ -5,6 +5,8 @@ import { CarrouselTriangleComponent } from './carrousel/carrousel-triangle/carro
 import { AngularMaterialModule } from './angular-material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BingMapComponent } from './bing-map/bing-map.component';
+import { LocationNotFoundDialogComponent } from './dialogs/location-not-found-dialog.component';
+import { WelcomeDialogComponent } from './dialogs/welcome-dialog.component';
 
 
 
@@ -12,7 +14,9 @@ import { BingMapComponent } from './bing-map/bing-map.component';
   declarations: [
     CarrouselComponent,
     CarrouselTriangleComponent,
-    BingMapComponent
+    BingMapComponent,
+    LocationNotFoundDialogComponent,
+    WelcomeDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +25,9 @@ import { BingMapComponent } from './bing-map/bing-map.component';
   ],
   exports: [
     CarrouselComponent,
-    BingMapComponent
+    BingMapComponent,
+    LocationNotFoundDialogComponent,
+    WelcomeDialogComponent
   ]
 })
 export class CommonSharedModule { }

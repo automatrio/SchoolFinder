@@ -1,21 +1,27 @@
 <main class="home__container">
-  <form class="home__background-panel" (submit)="searchForLocation()">
+  <form #searchForm="ngForm" class="home__background-panel" (submit)="searchForLocation()">
       <mat-form-field class="address-form" appearance="outline">
         <mat-label>Procurar escolas próximas a:</mat-label>
         <input
           matInput
           name="search"
           type="text" 
-          [(ngModel)]="address" 
+          [(ngModel)]="address"
+          required
           aria-label="campo para pesquisar seu endereço"
           [placeholder]="'Digite um endereço de Porto Alegre'">
       </mat-form-field>
       <button
         mat-icon-button
-        aria-label="search" 
+        aria-label="search"
+        [disabled]="!searchForm.valid"
         type="submit"
-        matTooltip="Pesquisar">
-        <mat-icon>search</mat-icon>
+        matTooltip = "Pesquisar">
+        <mat-icon
+          [matTooltipDisabled]="searchForm.valid"
+          matTooltip="Digite algo">
+          search
+        </mat-icon>
       </button>
       <button 
         color="warn" 

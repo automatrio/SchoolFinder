@@ -181,6 +181,6 @@ export class BingMapComponent implements AfterViewInit  {
   }
 
   private directionsError(error: any) {
-    this.toastService.openDialog("Desculpe, não foi possível encontrar a rota!", true);
+    this.toastService.openErrorDialog("Desculpe, não foi possível encontrar a rota!", true);
   }
 }

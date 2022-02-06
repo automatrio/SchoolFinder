@@ -18,7 +18,7 @@ html {
             position: absolute;
         }
         .main__gradient {
-            background: linear-gradient(0deg, rgba(0,40,20,1) 0%, rgba(0, 255, 100, .85) 100%);
+            background: linear-gradient(0deg, rgba(0,23,34,.96) 0%, rgba(0, 255, 100, .85) 100%);
             mix-blend-mode: darken;
             backdrop-filter: blur(2px);
             width: 100vw;
@@ -35,7 +35,13 @@ html {
         }
 
         .mat-drawer-content {
-            overflow: hidden;
+            @media (max-width: 400px) {
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            @media (min-width: 401px) {
+                overflow: hidden;
+            } 
         }
 
         .mat-drawer-container {

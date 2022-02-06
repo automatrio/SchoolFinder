@@ -6,7 +6,7 @@ import { SchoolsTableComponent } from './schools-table/schools-table.component';
 import { AngularMaterialModule } from '../common/angular-material.module';
 import { MainRoutingModule } from './main.routing.module';
 import { AngularCommomModule } from '../common/angular-commom.module';
-import { LocationNotFoundDialogComponent } from '../common/location-not-found-dialog/location-not-found-dialog.component';
+import { LocationNotFoundDialogComponent } from '../common/dialogs/location-not-found-dialog.component';
 import { SchoolService } from './schools-table/services/school.service';
 
 
@@ -14,7 +14,6 @@ import { SchoolService } from './schools-table/services/school.service';
   declarations: [
     HomeComponent,
     SchoolsTableComponent,
-    LocationNotFoundDialogComponent,
   ],
   imports: [
     CommonModule,
