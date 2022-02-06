@@ -4,7 +4,7 @@
             <mat-icon >close</mat-icon>
         </button>
     </div>
-    <bing-map *ngIf="(mapLoaded | async)"></bing-map>
+    <bing-map *ngIf="(mapLoaded | async) && (schoolToExplore | async)"></bing-map>
     <div class="school-explorer__scrollable">
         <form class="school-explorer__formGrid" [formGroup]="fieldsService.formGroup" *ngIf="(schoolToExplore | async)">
             <!-- NOME -->

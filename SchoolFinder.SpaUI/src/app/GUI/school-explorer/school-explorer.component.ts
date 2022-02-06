@@ -14,7 +14,7 @@ import { SchoolExplorerFieldsService } from './services/school-explorer-fields.s
 export class SchoolExplorerComponent implements AfterViewInit {
 
   mapLoaded: Observable<boolean>;
-  schoolToExplore: Observable<School>;
+  schoolToExplore: Observable<School|null>;
 
   constructor(
     private bingApiLoaderService: BingApiLoaderService,
@@ -24,7 +24,7 @@ export class SchoolExplorerComponent implements AfterViewInit {
       this.mapLoaded = eventBusService.mapLoaded.asObservable();
       this.schoolToExplore = eventBusService.schoolToExplore.asObservable();
       eventBusService.schoolToExplore.subscribe(school => {
-        this.schoolService.getOne(school.id).subscribe(response => {
+        this.schoolService.getOne(school!.id).subscribe(response => {
           this.fieldsService.fillOutForm(response.data[0]);
         });
       });

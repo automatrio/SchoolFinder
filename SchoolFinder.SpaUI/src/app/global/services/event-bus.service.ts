@@ -19,7 +19,7 @@ export class EventBusService {
   public foundLocationCoordinates = new BehaviorSubject<number[]>([]);
   public mapLoaded = new BehaviorSubject<boolean>(false);
   public nearestSchools = new ReplaySubject<HttpResponse<School>>(1);
-  public schoolToExplore = new ReplaySubject<School>(1);
+  public schoolToExplore = new ReplaySubject<School|null>(1);
   public pushPins = new BehaviorSubject<Pushpin[]>([]);
   public clickedPushpinSchoolId = new ReplaySubject<number>(1);
   

@@ -57,18 +57,17 @@ export class SchoolsTableComponent implements AfterViewInit {
           event.pageIndex,
           this.filter)
         .subscribe(response => {
-          this.initializeTableAndExplorer(response);
-          this.eventBusService.expandSchoolExplorer.next(true);
+          this.initializeTableAndExplorer(response, false);
           resolve();
         });
     });
   }
 
-  public async focusOnSchool(school: School) {
+  public async focusOnSchool(school: School, expandExplorer: boolean = true) {
     school.seeMap = true;
     school.seeRoute = false;
     this.eventBusService.schoolToExplore.next(school);
-    this.eventBusService.expandSchoolExplorer.next(true);
+    if (expandExplorer) this.eventBusService.expandSchoolExplorer.next(true);
   }
 
   public routeToSchool(school: School) {
@@ -96,12 +95,12 @@ export class SchoolsTableComponent implements AfterViewInit {
     this.eventBusService.pushPins.next(schools.map(s => PushpinFactory.fromSchool(s)));
   }
 
-  private initializeTableAndExplorer(schools: HttpResponse<School>) {
+  private initializeTableAndExplorer(schools: HttpResponse<School>, expandExplorer: boolean = true) {
     const data = this.fillLazyLoadedDataArray(schools);
     this.dataSource = new MatTableDataSource(data as School[]);
     this.dataSource.paginator = this.paginator;
     const currentIndex = this.latestPageEvent.pageIndex * this.latestPageEvent.pageSize;
-    this.focusOnSchool(data[currentIndex]!)
+    this.focusOnSchool(data[currentIndex]!, expandExplorer)
   }
 
   private fillLazyLoadedDataArray(schools: HttpResponse<School>) {

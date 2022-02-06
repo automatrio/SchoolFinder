@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using BingMapsRESTToolkit;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SchoolFinder.Common;
 using SchoolFinder.Services;
 
@@ -20,6 +19,12 @@ namespace SchoolFinder.API.Controllers
             this.bingMapsService = bingMapsService;
         }
         
+        /// <summary>
+        /// Gets a list with all possible locations found based on the query provided, listed from
+        /// most to least likely.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string query)
         {
@@ -28,6 +33,12 @@ namespace SchoolFinder.API.Controllers
             });
         }
 
+        /// <summary>
+        /// Gets a route between two coordinates, origin and destinantion. The expect input is this:
+        /// [origin.latitude, origin. longitude, destination.latitude, destination.longitude].
+        /// </summary>
+        /// <param name="coords"></param>
+        /// <returns></returns>
         [HttpGet("get-route")]
         public async Task<IActionResult> GetRoute([FromQuery] double[] coords)
         {

@@ -16,6 +16,9 @@ namespace SchoolFinder.API.Controllers
         {
         }
 
+        /// <summary>
+        /// Maps requests to non-API routes back to the Angular application.
+        /// </summary>
         [HttpGet]
         public ActionResult Index()
         {

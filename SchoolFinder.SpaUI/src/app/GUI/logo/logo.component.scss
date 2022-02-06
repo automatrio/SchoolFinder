@@ -25,12 +25,19 @@
         transition: 150ms;
     }
 
+    #subtitle {
+        font-size: 24px;
+        position: relative;
+        top: 90px;
+        left: -70px;
+        color:rgb(107, 255, 169);
+    }
+
     .img__container {
         display: grid;
         grid-template-columns: repeat(3, 110px);
         align-items: center;
         justify-items: center;
-
         &:hover {
         cursor: pointer;
         .glow {

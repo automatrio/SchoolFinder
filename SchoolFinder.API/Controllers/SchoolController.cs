@@ -21,7 +21,7 @@ namespace SchoolFinder.API.Controllers
         /// <summary>
         /// Fetches Schools from this application's database, which is a reflection of DataPOA's one,
         /// the only difference being that text fields have been formatted to better suit visual presentation.
-        /// Use "OrderBySmallestDistance" as QueryBehavior to modify the query accordigly.
+        /// Use "OrderBySmallestDistance" as QueryBehavior to modify the query accordingly.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns>

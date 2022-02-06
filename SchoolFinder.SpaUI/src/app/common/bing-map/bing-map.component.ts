@@ -79,8 +79,8 @@ export class BingMapComponent implements AfterViewInit  {
 
   private showSchoolOrRoutetoSchoolAfterFirstTime() {
     this.eventBusService.schoolToExplore.subscribe(school => {
-      const destinationCoords = [school.latitude, school.longitude];
-      if (!school.seeRoute) {
+      const destinationCoords = [school!.latitude, school!.longitude];
+      if (!school!.seeRoute) {
         
         this.recenterMap(destinationCoords);
       } else {

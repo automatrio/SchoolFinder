@@ -17,6 +17,7 @@ export class LogoComponent implements OnInit {
   public redirectToHomepage() {
     this.eventBusService.expandFiltersPanel.next(false);
     this.eventBusService.expandSchoolExplorer.next(false);
+    this.eventBusService.schoolToExplore.next(null);
     this.router.navigateByUrl("/");
   }
 
